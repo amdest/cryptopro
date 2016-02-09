@@ -10,7 +10,7 @@ module Cryptopro
     def self.create_temp_dir
       uniq_name = Digest::MD5.hexdigest("#{rand(1_000_000)}#{Time.now}")
       full_name = "#{Dir.tmpdir}/cryptcp/#{uniq_name}"
-      FileUtils.mkdir_p(full_name)
+      FileUtils.mkdir_p(full_name)[0]
     end
 
     def self.create_temp_file(dir_name, file_name, content)
@@ -20,7 +20,7 @@ module Cryptopro
     end
 
     # Добавляет -----BEGIN CERTIFICATE----- / -----END CERTIFICATE-----, если их нет.
-    # Так же делит длинную строку Base64 на строки по 64 символа.
+    # Также делит длинную строку Base64 на строки по 64 символа.
     # Это требование cryptcp к файл с сертификатом.
     def self.add_container_to_certificate(certificate)
       return certificate if certificate.downcase.include?("begin")

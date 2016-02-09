@@ -6,8 +6,8 @@ module Cryptopro
     def self.issue_test_certificate(csr)
       upload_uri = URI(TEST_CA_UPLOAD_PAGE_URL)
       upload_response = Net::HTTP.post_form(upload_uri,
-        'Mode' => 'newreq',
-        'CertRequest' => csr
+                                            'Mode' => 'newreq',
+                                            'CertRequest' => csr
       )
 
       ca_request_id = upload_response.body.match(/ReqID\=(\d+)/)[1]
