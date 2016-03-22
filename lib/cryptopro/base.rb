@@ -15,7 +15,7 @@ module Cryptopro
 
     def self.create_temp_file(dir_name, file_name, content)
       full_path = "#{dir_name}/#{file_name}"
-      File.open(full_path, "w") { |file| file.write(content) }
+      File.open(full_path, "wb") { |file| file.write(content) }
       full_path
     end
 
