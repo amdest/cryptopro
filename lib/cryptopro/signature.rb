@@ -38,9 +38,23 @@ module Cryptopro
       line = Cocaine::CommandLine.new("cryptcp", "-vsignf -errchain -dir #{dir} -f #{dir}/#{CERTIFICATE_FILE_NAME} #{dir}/#{MESSAGE_FILE_NAME}")
       begin
         line.run
-        true
+        return true, 'Подпись прошла успешно'
       rescue Cocaine::ExitStatusError => e
-        e[-23..-1]
+        message = case e[-9..-2]
+                    when '20000132'
+                      'Данный сертификат не может применяться для этой операции'
+                    when '20000133'
+                      'Цепочка сертификатов не проверена'
+                    when '200001F6'
+                      'Неизвестный алгоритм подписи'
+                    when '200001F9'
+                      'Подпись не верна'
+                    when '20000259'
+                      'Неизвестный алгоритм шифрования'
+                    else
+                      "Неизвестная ошибка, код: #{e[-9..-2]}"
+                  end
+        return false, message
       rescue Cocaine::CommandNotFoundError => e
         raise "Command cryptcp was not found"
       end
