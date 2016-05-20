@@ -40,7 +40,7 @@ module Cryptopro
         line.run
         return true, 'Подпись прошла успешно'
       rescue Cocaine::ExitStatusError => e
-        message = case e[-9..-2]
+        message = case e.message[/\[ErrorCode: 0x([0-9x]+)\]/, 1]
                     when '20000132'
                       'Данный сертификат не может применяться для этой операции'
                     when '20000133'
@@ -52,7 +52,7 @@ module Cryptopro
                     when '20000259'
                       'Неизвестный алгоритм шифрования'
                     else
-                      "Неизвестная ошибка, код: #{e[-9..-2]}"
+                      "Неизвестная ошибка, код: #{e.message[/\[ErrorCode: 0x([0-9x]+)\]/, 1]}"
                   end
         return false, message
       rescue Cocaine::CommandNotFoundError => e
