@@ -29,7 +29,7 @@ module Cryptopro
         # Here we're scanning error for lines like:
         # wget: unable to resolve host address ‘seor7ytlqehrtbkhsdfgodhkghsdpogsdf.com’
         rescue Cocaine::ExitStatusError => e
-          e.message.scan(/wget: ([a-z0-9’‘ .]+)/i).each do |error|
+          e.message.force_encoding('utf-8').scan(/wget: ([a-z0-9’‘ .]+)/i).each do |error|
             logger.error error
           end
 
@@ -60,7 +60,7 @@ module Cryptopro
 
         crl_files.each do |file|
           begin
-            line.run(file: "#{Dir.pwd}/#{file}")
+            line.run(file: file)
 
           # CryptoPro provides really long and verbose error messages, but the only thing of use in those is actual
           # error code, which we're scanning for and writing to log file.
