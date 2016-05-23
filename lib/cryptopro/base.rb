@@ -4,7 +4,7 @@ require 'cocaine'
 
 module Cryptopro
   class Base
-    CERTIFICATE_FILE_NAME = "certificate.cer"
+    CERTIFICATE_FILE_NAME = 'certificate.cer'
     CERTIFICATE_LINE_LENGTH = 64
 
     def self.create_temp_dir
@@ -15,7 +15,7 @@ module Cryptopro
 
     def self.create_temp_file(dir_name, file_name, content)
       full_path = "#{dir_name}/#{file_name}"
-      File.open(full_path, "wb") { |file| file.write(content) }
+      File.open(full_path, 'wb') { |file| file.write(content) }
       full_path
     end
 
@@ -23,7 +23,7 @@ module Cryptopro
     # Также делит длинную строку Base64 на строки по 64 символа.
     # Это требование cryptcp к файл с сертификатом.
     def self.add_container_to_certificate(certificate)
-      return certificate if certificate.downcase.include?("begin")
+      return certificate if certificate.downcase.include?('begin')
 
       parts = certificate.scan(/.{1,#{CERTIFICATE_LINE_LENGTH}}/)
       certificate_with_container = "-----BEGIN CERTIFICATE-----\n#{parts.join("\n")}\n-----END CERTIFICATE-----"

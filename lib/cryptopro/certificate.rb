@@ -10,20 +10,20 @@ module Cryptopro
     private
 
     def self.get_info(certificate_file_path)
-      Cocaine::CommandLine.path = ["/opt/cprocsp/bin/amd64", "/opt/cprocsp/bin/ia32"]
-      line = Cocaine::CommandLine.new("certmgr", "-list -f #{certificate_file_path}")
+      Cocaine::CommandLine.path = %w(/opt/cprocsp/bin/amd64 /opt/cprocsp/bin/ia32)
+      line = Cocaine::CommandLine.new('certmgr', "-list -f #{certificate_file_path}")
       begin
         line.run
       rescue Cocaine::ExitStatusError
         false
       rescue Cocaine::CommandNotFoundError => e
-        raise "Command certmgr was not found"
+        raise 'Command certmgr was not found'
       end
     end
 
     def self.raw_certificates(cryptopro_answer)
       cleaned_answer = clean_answer(cryptopro_answer)
-      cleaned_answer.split("=============================================================================")
+      cleaned_answer.split('=============================================================================')
     end
 
     def self.clean_answer(cryptopro_answer)
@@ -35,9 +35,9 @@ module Cryptopro
     def self.certificate_extract_info(raw_certificate)
       info = {}
       raw_certificate.split("\n").each do |certificate_line|
-        if certificate_line.include?(":")
-          name, value = certificate_line.split(":").map(&:strip)
-          name.gsub!(/\s/, "_")
+        if certificate_line.include?(':')
+          name, value = certificate_line.split(':').map(&:strip)
+          name.gsub!(/\s/, '_')
           name.downcase!
           info[name.to_sym] = value
         end

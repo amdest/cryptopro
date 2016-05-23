@@ -1,20 +1,20 @@
 module Cryptopro
   class Signature < Cryptopro::Base
-    MESSAGE_FILE_NAME = "message.txt"
+    MESSAGE_FILE_NAME = 'message.txt'
     # Должен называться как файл с сообщением, только расширение .sgn
-    SIGNATURE_FILE_NAME = "message.txt.sgn"
+    SIGNATURE_FILE_NAME = 'message.txt.sgn'
 
     # Options: message, signature, certificate
     def self.verify(options)
-      raise "Message required" if options[:message].blank?
-      raise "Signature required" if options[:signature].blank?
-      raise "Certificate required" if options[:certificate].blank?
+      raise 'Message required' if options[:message].blank?
+      raise 'Signature required' if options[:signature].blank?
+      raise 'Certificate required' if options[:certificate].blank?
 
       # Для работы с cryptcp требуется, чтобы сообщение, полпись и сертификат были в виде файлов
       # Создаётся временная уникальная папка для каждой проверки
       tmp_dir = create_temp_dir
       create_temp_files(tmp_dir, options)
-      state = execute(tmp_dir)
+      execute(tmp_dir)
     end
 
     private
@@ -34,8 +34,8 @@ module Cryptopro
     # cryptcp -vsignf -dir /home/user/signs -f certificate.cer message.txt
     # /home/user/signs -- папка с подписью, имя которой соответствуют имени сообщения, но с расширением .sgn
     def self.execute(dir)
-      Cocaine::CommandLine.path = ["/opt/cprocsp/bin/amd64", "/opt/cprocsp/bin/ia32"]
-      line = Cocaine::CommandLine.new("cryptcp", "-vsignf -errchain -dir #{dir} -f #{dir}/#{CERTIFICATE_FILE_NAME} #{dir}/#{MESSAGE_FILE_NAME}")
+      Cocaine::CommandLine.path = %w(/opt/cprocsp/bin/amd64 /opt/cprocsp/bin/ia32)
+      line = Cocaine::CommandLine.new('cryptcp', "-vsignf -errchain -dir #{dir} -f #{dir}/#{CERTIFICATE_FILE_NAME} #{dir}/#{MESSAGE_FILE_NAME}")
       begin
         line.run
         return true, 'Подпись прошла успешно'
@@ -56,7 +56,7 @@ module Cryptopro
                   end
         return false, message
       rescue Cocaine::CommandNotFoundError => e
-        raise "Command cryptcp was not found"
+        raise 'Command cryptcp was not found'
       end
     end
 

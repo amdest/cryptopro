@@ -1,6 +1,6 @@
 module Cryptopro
   class Csr
-    TEST_CA_UPLOAD_PAGE_URL = "http://www.cryptopro.ru/certsrv/certfnsh.asp"
+    TEST_CA_UPLOAD_PAGE_URL = 'http://www.cryptopro.ru/certsrv/certfnsh.asp'
     TEST_CA_DOWNLOAD_PAGE_URL = "http://www.cryptopro.ru/certsrv/certnew.cer?ReqID=%{ca_request_id}&Enc=b64"
 
     def self.issue_test_certificate(csr)
@@ -17,7 +17,7 @@ module Cryptopro
         download_uri = URI(download_url_string)
         Net::HTTP.get(download_uri)
       else
-        raise "CSR not accepted"
+        raise 'CSR not accepted'
       end
     end
   end
