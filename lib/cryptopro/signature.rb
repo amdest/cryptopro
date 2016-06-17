@@ -34,7 +34,7 @@ module Cryptopro
     # cryptcp -vsignf -dir /home/user/signs -f certificate.cer message.txt
     # /home/user/signs -- папка с подписью, имя которой соответствуют имени сообщения, но с расширением .sgn
     def self.execute(dir)
-      Cocaine::CommandLine.path = %w(/opt/cprocsp/bin/amd64 /opt/cprocsp/bin/ia32)
+      Cocaine::CommandLine.path = %w(/opt/cprocsp/bin/amd64 /opt/cprocsp/bin/ia32 /opt/cprocsp/bin)
       line = Cocaine::CommandLine.new('cryptcp', "-vsignf -errchain -dir #{dir} -f #{dir}/#{CERTIFICATE_FILE_NAME} #{dir}/#{MESSAGE_FILE_NAME}")
       begin
         line.run
