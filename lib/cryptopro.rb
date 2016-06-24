@@ -2,8 +2,8 @@ require 'cryptopro/base'
 require 'cryptopro/csr'
 require 'cryptopro/signature'
 require 'cryptopro/certificate'
-require 'cryptopro/update/crl'
-require 'cryptopro/update/root_certificates'
+require 'cryptopro/update/actions'
+require 'cryptopro/update/ca_list'
 
 module Cryptopro
 end

@@ -1,6 +1,7 @@
 require 'tmpdir'
 require 'digest/md5'
 require 'cocaine'
+require 'curb'
 
 module Cryptopro
   class Base
