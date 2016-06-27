@@ -14,7 +14,7 @@ module Cryptopro
       # Создаётся временная уникальная папка для каждой проверки
       tmp_dir = create_temp_dir
       create_temp_files(tmp_dir, options)
-      execute(tmp_dir)
+      execute(tmp_dir, options[:args])
     end
 
     private
@@ -33,9 +33,9 @@ module Cryptopro
     # Пример вызова утилиты cryptcp:
     # cryptcp -vsignf -dir /home/user/signs -f certificate.cer message.txt
     # /home/user/signs -- папка с подписью, имя которой соответствуют имени сообщения, но с расширением .sgn
-    def self.execute(dir)
+    def self.execute(dir, args)
       Cocaine::CommandLine.path = %w(/opt/cprocsp/bin/amd64 /opt/cprocsp/bin/ia32 /opt/cprocsp/bin)
-      line = Cocaine::CommandLine.new('cryptcp', "-vsignf -errchain -dir #{dir} -f #{dir}/#{CERTIFICATE_FILE_NAME} #{dir}/#{MESSAGE_FILE_NAME}")
+      line = Cocaine::CommandLine.new('cryptcp', "-vsignf -errchain -dir #{dir} -f #{dir}/#{CERTIFICATE_FILE_NAME} #{dir}/#{MESSAGE_FILE_NAME} #{args}")
       begin
         line.run
         return true, 'Подпись прошла успешно'
