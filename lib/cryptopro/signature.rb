@@ -4,7 +4,7 @@ module Cryptopro
     # Должен называться как файл с сообщением, только расширение .sgn
     SIGNATURE_FILE_NAME = 'message.txt.sgn'
 
-    # Options: message, signature, certificate
+    # Options: message, signature, certificate, args
     def self.verify(options)
       raise 'Message required' if options[:message].blank?
       raise 'Signature required' if options[:signature].blank?
